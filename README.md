@@ -34,7 +34,7 @@ The final dataset (`company_info_dataset.csv`) contains:
 
 ### 1. Clone the repo
 ```bash
-git clone https://github.com/yourusername/sp500-companyinfo-scraper.git
+git clone https://github.com/AkashR-16/Company-Info-Agent.git
 cd Company-Info-Agent
 ```
 
