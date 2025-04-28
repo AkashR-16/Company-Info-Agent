@@ -1,115 +1,97 @@
-# Company Info Agent 
+# Company Info Agent 📈
 
-This project builds an intelligent **Company Info Agent** that fetches detailed company information for U.S.-listed companies using a combination of:
-- **DuckDuckGo Search** (for live web data)
-- **OpenAI-compatible local LLM** (running on Ollama or similar)
-- **Agents Framework** from `openai-agents-python`
+This project scrapes detailed company information from S&P 500 tickers using autonomous agents powered by a local LLM.
+It builds a rich dataset including company name, sector, founding year, CEO tenure, Glassdoor ratings, and more.
 
 ---
 
-## 🔖 Features
-- Search and retrieve:
-  - Full company name
-  - Ticker symbol
-  - Sector / Industry
-  - Founding year
-  - Number of employees
-  - CEO tenure (in years)
-  - CEO count since 2010
-  - Average Glassdoor employee rating
-  - Institutional ownership %
-  - Number of board members
-  - Number of open job positions (globally)
-- Structured output in JSON based on a `CompanyInfo` Pydantic schema.
-- Asynchronous execution for handling multiple tickers efficiently.
-- Output data is stored neatly in a Pandas DataFrame for further analysis or export.
+## 📊 Features
+- Dynamically fetches **live S&P 500 tickers** from Wikipedia and processes all companies in parallel.
+- Integrates **DuckDuckGo search** for fresh news articles.
+- Uses **local LLM** inference via Ollama (`cogito:3b`) for intelligent extraction.
+- **Progress bar** to monitor scraping live.
+- Builds a **structured CSV dataset** automatically.
+- Error handling: One ticker's failure won't crash the full pipeline.
 
 ---
 
-## 👨‍💻 Tech Stack
-- Python 3.10+
-- [openai-agents-python](https://pypi.org/project/openai-agents-python/)
-- [duckduckgo-search](https://pypi.org/project/duckduckgo-search/)
-- [Ollama](https://ollama.ai/) or any OpenAI-compatible local LLM endpoint
-- Pydantic
-- Pandas
+## 📜 Scripts Overview
+- **`basic.py`**: A basic program created for a predefined list of tickers (`AAPL`, `MSFT`, `GOOGL`, `AMZN`, `TSLA`).
+- **`main.py`**: The main agentic system that dynamically fetches the current S&P 500 tickers and processes them.
 
 ---
 
-## 🔹 Installation
+## 📂 Output Example
+The final dataset (`company_info_dataset.csv`) contains:
 
-1. Clone the repository:
+| Company Name | Ticker | Sector | Founding Year | Employees | CEO Tenure (years) | ... |
+|--------------|--------|--------|---------------|-----------|--------------------|-----|
+| Apple Inc.   | AAPL   | Tech   | 1976          | 164,000   | 3.5                | ... |
+
+---
+
+## 🚀 Quick Start
+
+### 1. Clone the repo
 ```bash
-https://github.com/yourusername/company-info-agent.git
-cd company-info-agent
+git clone https://github.com/yourusername/sp500-companyinfo-scraper.git
+cd Company-Info-Agent
 ```
 
-2. Install the dependencies:
+### 2. Install dependencies
 ```bash
 pip install -r requirements.txt
 ```
 
-3. Start your local LLM server (Ollama or custom OpenAI-compatible endpoint).
-Example:
+> Requirements include: `pandas`, `duckduckgo-search`, `yfinance`, `openai-agents-python`, `pydantic`, `tqdm`
+
+### 3. Set up your Ollama server
+Make sure your LLM (like `cogito:3b`) is running locally via Ollama at `http://localhost:11434/v1`.
+
+### 4. Run the script
+#### For basic ticker list (5 companies):
 ```bash
-ollama run cogito:3b
+python basic.py
 ```
 
-4. Run the script:
+#### For dynamic S&P 500 ticker scraping:
 ```bash
 python main.py
 ```
 
+The scraping will begin! Check `company_info_dataset.csv` once done.
+
 ---
 
-## 👀 Example Output
-
+## 🔧 Project Structure
 ```
-CompanyInfo(
-    company_name='Apple Inc.',
-    ticker='AAPL',
-    sector='Technology',
-    founding_year=1976,
-    number_of_employees=161000,
-    ceo_tenure_years=13.5,
-    ceo_count_since_2010=1,
-    average_glassdoor_rating=4.2,
-    institutional_ownership_pct=60.5,
-    board_member_count=8,
-    job_positions_open=4200
-)
+.
+├── main.py          # Main agentic system for full S&P 500 scraping
+├── basic.py         # Basic program for a few predefined tickers
+├── requirements.txt # Python package requirements
+├── README.md        # This file
+└── company_info_dataset.csv # Output dataset (after run)
 ```
 
 ---
 
-## 📘 Project Structure
-
-```
-company-info-agent/
-|├── main.py         # Main agent script
-|├── requirements.txt # Python dependencies
-|└── README.md       # This file
-```
-
----
-
-## 🔍 Notes
-- **Accuracy:** DuckDuckGo searches are not guaranteed to always return the most up-to-date results. Manual verification may still be required.
-- **Expandability:** You can easily add more fields or integrate more powerful retrieval tools like web scrapers or APIs.
+## 🛠️ Tech Stack
+- **Python 3.10+**
+- **Pandas** — Data manipulation and CSV generation
+- **DuckDuckGo Search API** — Web search for company news
+- **Yahoo Finance (`yfinance`)** — Ticker and financial data
+- **OpenAI Agents Python SDK** — Agentic architecture
+- **Ollama** — Local LLM server (running `cogito:3b` model)
+- **Pydantic** — Data validation and typing
+- **TQDM** — Progress bars
 
 ---
 
-## 💜 Contributions
-Pull requests, improvements, and suggestions are welcome!
+## 🔐 License
+MIT License.
+
+Feel free to use, modify, and contribute!
+
+
 
 ---
-
-## 📅 License
-[MIT License](LICENSE)
-
----
-
-## 🛍️ Future Enhancements
-- Integrate real financial APIs (e.g., Yahoo Finance, Alpha Vantage)
-
-
